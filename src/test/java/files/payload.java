@@ -36,4 +36,58 @@ public static String UpdatePlace(String placeId, String newAddress) {
 	
 }
 
+public static String ComputeCourses() { 
+	//This is a mock data while the real API is undergoing on development.
+	
+	//to read this mock payload in human way you can use this tool "https://jsoneditoronline.org/"
+	
+	return "{\r\n"
+			+ "\r\n"
+			+ "\"dashboard\": {\r\n"
+			+ "\r\n"
+			+ "\"purchaseAmount\": 910,\r\n"
+			+ "\r\n"
+			+ "\"website\": \"rahulshettyacademy.com\"\r\n"
+			+ "\r\n"
+			+ "},\r\n"
+			+ "\r\n"
+			+ "\"courses\": [\r\n"
+			+ "\r\n"
+			+ "{\r\n"
+			+ "\r\n"
+			+ "\"title\": \"Selenium Python\",\r\n"
+			+ "\r\n"
+			+ "\"price\": 50,\r\n"
+			+ "\r\n"
+			+ "\"copies\": 6\r\n"
+			+ "\r\n"
+			+ "},\r\n"
+			+ "\r\n"
+			+ "{\r\n"
+			+ "\r\n"
+			+ "\"title\": \"Cypress\",\r\n"
+			+ "\r\n"
+			+ "\"price\": 40,\r\n"
+			+ "\r\n"
+			+ "\"copies\": 4\r\n"
+			+ "\r\n"
+			+ "},\r\n"
+			+ "\r\n"
+			+ "{\r\n"
+			+ "\r\n"
+			+ "\"title\": \"RPA\",\r\n"
+			+ "\r\n"
+			+ "\"price\": 45,\r\n"
+			+ "\r\n"
+			+ "\"copies\": 10\r\n"
+			+ "\r\n"
+			+ "}\r\n"
+			+ "\r\n"
+			+ "]\r\n"
+			+ "\r\n"
+			+ "}";
+	
+	
+}
+
 }

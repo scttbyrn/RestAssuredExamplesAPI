@@ -3,11 +3,11 @@
 <suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="RestAssuredExamples.DynamicJson">
+      <class name="deserializationPOJO.OAuthCourse">
         <methods>
-          <include name="deleteBook" invocation-numbers="0 1 2"/>
+          <include name="GetCourseDetails"/>
         </methods>
-      </class> <!-- RestAssuredExamples.DynamicJson -->
+      </class> <!-- deserializationPOJO.OAuthCourse -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

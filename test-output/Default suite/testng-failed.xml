@@ -3,11 +3,11 @@
 <suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="serializationPOJO.AddGoogleMap">
+      <class name="graphQL.GraphQL">
         <methods>
-          <include name="addGoogleMap"/>
+          <include name="graphQLsample"/>
         </methods>
-      </class> <!-- serializationPOJO.AddGoogleMap -->
+      </class> <!-- graphQL.GraphQL -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

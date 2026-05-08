@@ -3,11 +3,11 @@
 <suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="deserializationPOJO.OAuthCourse">
+      <class name="serializationPOJO.AddGoogleMap">
         <methods>
-          <include name="GetCourseDetails"/>
+          <include name="addGoogleMap"/>
         </methods>
-      </class> <!-- deserializationPOJO.OAuthCourse -->
+      </class> <!-- serializationPOJO.AddGoogleMap -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

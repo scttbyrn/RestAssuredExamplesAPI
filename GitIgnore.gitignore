@@ -1,0 +1,5 @@
+test-output/
+
+/**
+- run this command before adding ignore file "git rm -r --cached test-output"
+**/

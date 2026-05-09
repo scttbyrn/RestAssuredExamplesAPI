@@ -2,8 +2,8 @@ package files;
 
 public class payload {
 
-public static String AddPlace() //Static used to not declare the ClassObject to use this method.
-	
+	public static String AddPlace() //Static used to not declare the ClassObject to use this method.
+
 	{
 		return "{\r\n" + 
 				"  \"location\": {\r\n" + 
@@ -22,18 +22,97 @@ public static String AddPlace() //Static used to not declare the ClassObject to 
 				"  \"language\": \"French-IN\"\r\n" + 
 				"}\r\n" + 
 				"";
+
+
+	}
+
+	public static String UpdatePlace(String placeId, String newAddress) {
+
+		return "{\r\n" + 
+				"\"place_id\":\""+placeId+"\",\r\n" + 
+				"\"address\":\""+newAddress+"\",\r\n" + 
+				"\"key\":\"qaclick123\"\r\n" + 
+				"}";
+
+	}
+
+	public static String ComputeCourses() { 
+		//This is a mock data while the real API is undergoing on development.
+
+		//to read this mock payload in human way you can use this tool "https://jsoneditoronline.org/"
+
+		return "{\r\n"
+		+ "\r\n"
+		+ "\"dashboard\": {\r\n"
+		+ "\r\n"
+		+ "\"purchaseAmount\": 910,\r\n"
+		+ "\r\n"
+		+ "\"website\": \"rahulshettyacademy.com\"\r\n"
+		+ "\r\n"
+		+ "},\r\n"
+		+ "\r\n"
+		+ "\"courses\": [\r\n"
+		+ "\r\n"
+		+ "{\r\n"
+		+ "\r\n"
+		+ "\"title\": \"Selenium Python\",\r\n"
+		+ "\r\n"
+		+ "\"price\": 50,\r\n"
+		+ "\r\n"
+		+ "\"copies\": 6\r\n"
+		+ "\r\n"
+		+ "},\r\n"
+		+ "\r\n"
+		+ "{\r\n"
+		+ "\r\n"
+		+ "\"title\": \"Cypress\",\r\n"
+		+ "\r\n"
+		+ "\"price\": 40,\r\n"
+		+ "\r\n"
+		+ "\"copies\": 4\r\n"
+		+ "\r\n"
+		+ "},\r\n"
+		+ "\r\n"
+		+ "{\r\n"
+		+ "\r\n"
+		+ "\"title\": \"RPA\",\r\n"
+		+ "\r\n"
+		+ "\"price\": 45,\r\n"
+		+ "\r\n"
+		+ "\"copies\": 10\r\n"
+		+ "\r\n"
+		+ "}\r\n"
+		+ "\r\n"
+		+ "]\r\n"
+		+ "\r\n"
+		+ "}";
+
+
+	}
+	
+	public static String addBook(String isbn, String aisle ) {
+		
+		//This is a Library payload examples
+		
+		return "{\r\n"
+				+ "\r\n"
+				+ "\"name\":\"Learn Appium Automation with Java\",\r\n"
+				+ "\"isbn\":\""+isbn+"\",\r\n"
+				+ "\"aisle\":\""+aisle+"\",\r\n"
+				+ "\"author\":\"John foe\"\r\n"
+				+ "}\r\n"
+				+ "";
 		
 		
 	}
+	
+	public static String deleteBook(String id) {
+		
+		return"{\n" +
+                "  \"ID\": \""+id+"\"\n" +
+                "}";
+	}
 
-public static String UpdatePlace(String placeId, String newAddress) {
-	
-	return "{\r\n" + 
-		"\"place_id\":\""+placeId+"\",\r\n" + 
-		"\"address\":\""+newAddress+"\",\r\n" + 
-		"\"key\":\"qaclick123\"\r\n" + 
-		"}";
-	
-}
+
 
 }

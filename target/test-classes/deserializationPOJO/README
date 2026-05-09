@@ -1,0 +1,26 @@
+Guide for this POJO Classes Function
+
+Deserialized the payload JSON response using getters and setter with parent class, child class, and sub-child class.
+
+Parent Class:
+*GetCoursePOJO.java
+
+Child Class
+*CoursePOJO
+
+Sub-Child Class
+*WebAutomation.java
+*Mobile.java
+*API.java
+
+install also "jackson-databind" dependency on pom.xml
+
+To fulfill this POJO Classes function run execute "OAuthCourse.java"
+
+
+
+*******************************************************************************
+Array - stores non-incremental data
+ArrayList - stores incremental data
+
+

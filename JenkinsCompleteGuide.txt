@@ -1,0 +1,49 @@
+*** Complete guide for Automation CI using Jenkins ***
+
+**Step 1:
+Create Jenkins Pipeline
+Trigger: GitHub hook trigger for GITScm polling
+
+Under of Pipeline
+Definition: Pipeline script from SCM
+SCM: Git
+Repository: https://github.com/scttbyrn/RestAssuredExamplesAPI.git - This repo is need to be test
+Credential: Add here credential (e.g. Secret Text)
+Branch Specifier: */GraphQL - This will define which branch will the jenkins trigger after push
+Script Path: CI.Jenkinsfile - this will the name of the Jenkinsfile you added on this repo
+
+Note: This setup is to define of what branch need to be test and to Jenkins Trigger the automatic test cases.
+
+Step 2:
+Add .Jenkinsfile on this repo https://github.com/scttbyrn/RestAssuredExamplesAPI.git
+Add the Groovy script inside of CI.Jenkinsfile you created.
+
+pipeline {
+    agent any
+
+    stages {
+
+        stage('Checkout Test Repo') {
+            steps {
+                git url: 'https://github.com/scttbyrn/ExtentReport_Parallel.git',
+                    branch: 'master'
+            }
+        }
+
+        stage('Run Smoke') {
+            steps {
+                bat 'mvn test'
+            }
+        }
+    }
+}
+
+Note:
+git url: 'https://github.com/scttbyrn/ExtentReport_Parallel.git', - this line will define what will to checkout repo need to use for automation execution.
+branch: 'master' - this line define what branch need to use for automation test cases.
+bat 'mvn test' - this line will execute the run automation execution.
+
+Step 3:
+Edit, Save and Push code on this repo "https://github.com/scttbyrn/RestAssuredExamplesAPI.git"
+
+Note: The Jenkins Trigger the automation testcases on Pipeline.

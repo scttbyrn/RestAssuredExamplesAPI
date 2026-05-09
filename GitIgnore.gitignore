@@ -4,9 +4,6 @@ test-output/
 /**
 - run this command to remove files after commit use this cmd "git rm -r --cached test-output".
 **/
-<<<<<<< HEAD
--**SCOTT
-=======
-- 
 
->>>>>>> 2735da55fefea5e771e8b27e69f50d0a7c689238
+-**SCOTT BYRON
+

@@ -1,2 +1,6 @@
 # TestNG reports
 test-output/
+
+/**
+- to remove files after commit use this cmd "git rm -r --cached test-output".
+**/

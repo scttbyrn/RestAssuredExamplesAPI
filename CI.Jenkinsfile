@@ -15,10 +15,11 @@ pipeline {
 	
 	        stage('Checkout Smoke and Regression Repo..') {
 	            steps {
+					
+					echo "Checkout Automation Test Cases.."
+					
 	                git url: 'https://github.com/scttbyrn/JenkinsCI-Job-Pipeline-.git',
-	                    branch: 'master'
-	                    
-	                echo "Checkout Automation Test Cases.."
+	                    branch: 'master'    
 	                    
 	                bat 'mvn clean install -DskipTests'
 	            }
@@ -72,9 +73,10 @@ pipeline {
                 expression { env.SMOKE_STATUS == "PASSED" && env.REGRESSION_STATUS == "PASSED" }
             }
             
-            echo "Running Sanity Tests.."
-
             steps {
+				
+				echo "Running Sanity Tests.."
+				
                 bat 'mvn test -PSanity -Dbrowser=edge'
             }
         }

@@ -40,7 +40,7 @@ pipeline {
 
                     try {
 
-                        bat 'mvn test -PSmoke -Dbrowser=edge'
+                        bat 'mvn test -PSmoke -Dbrowser=edge DreportName=SmokeReport'
                         env.SMOKE_STATUS = "PASSED"
 
                     } catch (err) {
@@ -67,7 +67,7 @@ pipeline {
 
                     try {
 
-                        bat 'mvn test -PRegression -Dbrowser=chrome'
+                        bat 'mvn test -PRegression -Dbrowser=chrome DreportName=RegressionReport'
                         env.REGRESSION_STATUS = "PASSED"
 
                     } catch (err) {
@@ -89,8 +89,18 @@ pipeline {
             steps {
 
                 echo "Running Sanity Tests.."
+                
+                    try {
 
-                bat 'mvn test -PSanity -Dbrowser=edge'
+                        bat 'mvn test -PSanity -Dbrowser=edge -DreportName=SanityReport'
+                        env.SANITY_STATUS = "PASSED"
+
+                    } catch (err) {
+
+                        env.SANITY_STATUS = "FAILED"
+                        error "Regression tests failed, stopping pipeline"
+
+                    }              
             }
         }
     }
@@ -133,7 +143,7 @@ pipeline {
 
                 attachLog: true,
 
-                attachmentsPattern: 'reports/index.html'
+                attachmentsPattern: 'reports/*.html'
             )
         }
 

@@ -37,7 +37,7 @@ pipeline {
                 }
             }
             steps {
-				echo "Running Regression Testing..."
+				echo "Running Regression Testing... "
                 bat 'mvn test -PRegression -Dbrowser=chrome'
             }
         }

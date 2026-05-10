@@ -40,7 +40,7 @@ pipeline {
 
                     try {
 
-                        bat 'mvn test -PSmoke -Dbrowser=edge -DreportName=SmokeReport'
+                        bat 'mvn test -PSmoke -Dbrowser=edge "-DreportName=SmokeReport"'
                         env.SMOKE_STATUS = "PASSED"
 
                     } catch (err) {
@@ -67,7 +67,7 @@ pipeline {
 
                     try {
 
-                        bat 'mvn test -PRegression -Dbrowser=chrome -DreportName=RegressionReport'
+                        bat 'mvn test -PRegression -Dbrowser=chrome "-DreportName=RegressionReport"'
                         env.REGRESSION_STATUS = "PASSED"
 
                     } catch (err) {
@@ -94,7 +94,7 @@ pipeline {
 					
 					 try {
 
-                        bat 'mvn test -PSanity -Dbrowser=edge -DreportName=SanityReport'
+                        bat 'mvn test -PSanity -Dbrowser=edge "-DreportName=SanityReport"'
                         env.SANITY_STATUS = "PASSED"
 
                     } catch (err) {
@@ -132,6 +132,7 @@ pipeline {
                     <ul>
                         <li>Smoke Test: ${env.SMOKE_STATUS}</li>
                         <li>Regression Test: ${env.REGRESSION_STATUS}</li>
+                        <li>Sanity Test: ${env.SANITY_STATUS}</li>
                     </ul>
 
                     <p>

@@ -1,50 +1,51 @@
+/**This Pipeline is work only on this Branch
+
+Note:
+- To make this dynamically with auto detect other branches you must use "MultiBranch Pipeline".
+
+There is a sample of MultiBranch Pipelin groovy setup on branch of "OAuth".
+
+**/
+
 pipeline {
+	
     agent any
 
-    parameters {
-        choice(name: 'BRANCH_NAME', choices: ['GraphQL', 'OAuth', 'origin/DeserializationPOJO'], description: 'Select branch')
-    }
-
-    stages {
-
-        stage('Checkout') {
-            steps {
-                git url: 'https://github.com/scttbyrn/JenkinsCI-Job-Pipeline-.git',
-                    branch: 'master'
+	    stages {
+	
+	        stage('Checkout Smoke and Regression Repo..') {
+	            steps {
+	                git url: 'https://github.com/scttbyrn/JenkinsCI-Job-Pipeline-.git',
+	                    branch: 'master'
+	                    
+	                bat 'mvn clean install -DskipTests'
+	            }
+	        }
+	
+	       stage('Smoke Tests') {
+            	steps {
+                script {
+                    try {
+                        bat 'mvn test -PSmoke -Dbrowser=edge'
+                        env.SMOKE_STATUS = "PASSED"
+                        
+                    } catch (err) {
+                        env.SMOKE_STATUS = "FAILED"
+                        error "Smoke tests failed, stopping pipeline"
+                        
+                    }
+                }
             }
         }
 
-        stage('Debug') {
-            steps {
-                echo "Selected branch: ${params.BRANCH_NAME}"
-            }
-        }
-
-        stage('GraphQL Smoke') {
+        stage('Regression Tests') {
             when {
-                expression { params.BRANCH_NAME == 'GraphQL' }
-            }
-            steps {
-                bat 'mvn test -PSmoke -Dbrowser=edge'
-            }
-        }
-
-        stage('OAuth Regression') {
-            when {
-                expression { params.BRANCH_NAME == 'OAuth' }
+                expression { env.SMOKE_STATUS == "PASSED" }
             }
             steps {
                 bat 'mvn test -PRegression -Dbrowser=chrome'
             }
         }
-
-        stage('Deserialization Sanity') {
-            when {
-                expression { params.BRANCH_NAME == 'DeserializationPOJO' }
-            }
-            steps {
-                bat 'mvn test -PSanity -Dbrowser=edge'
-            }
-        }
-    }
+	
+	   }
 }

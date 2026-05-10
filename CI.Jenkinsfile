@@ -40,7 +40,7 @@ pipeline {
 
                     try {
 
-                        bat 'mvn test -PSmoke -Dbrowser=edge DreportName=SmokeReport'
+                        bat 'mvn test -PSmoke -Dbrowser=edge -DreportName=SmokeReport'
                         env.SMOKE_STATUS = "PASSED"
 
                     } catch (err) {
@@ -67,7 +67,7 @@ pipeline {
 
                     try {
 
-                        bat 'mvn test -PRegression -Dbrowser=chrome DreportName=RegressionReport'
+                        bat 'mvn test -PRegression -Dbrowser=chrome -DreportName=RegressionReport'
                         env.REGRESSION_STATUS = "PASSED"
 
                     } catch (err) {

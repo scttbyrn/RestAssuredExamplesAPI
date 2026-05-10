@@ -49,7 +49,7 @@ pipeline {
                 }
             }
             steps {
-				echo "Running Sanity Testing... "
+				echo "Running Sanity Testing..."
                 bat 'mvn test -PSanity -Dbrowser=edge'
             }
         }

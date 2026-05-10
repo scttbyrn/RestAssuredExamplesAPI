@@ -11,6 +11,12 @@ pipeline {
                     bat 'mvn clean install -DskipTests'
             }
         }
+        
+        stage('Debug Branch') {
+            steps {
+                echo "Current branch is: ${env.BRANCH_NAME}"
+            }
+        }
 
         stage('Develop - GraphQL') {
 			when {

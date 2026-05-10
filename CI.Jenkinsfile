@@ -90,7 +90,9 @@ pipeline {
 
                 echo "Running Sanity Tests.."
                 
-                    try {
+                script {
+					
+					 try {
 
                         bat 'mvn test -PSanity -Dbrowser=edge -DreportName=SanityReport'
                         env.SANITY_STATUS = "PASSED"
@@ -100,7 +102,10 @@ pipeline {
                         env.SANITY_STATUS = "FAILED"
                         error "Regression tests failed, stopping pipeline"
 
-                    }              
+                    } 
+					
+				}
+             
             }
         }
     }

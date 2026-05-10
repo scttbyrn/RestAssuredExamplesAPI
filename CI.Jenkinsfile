@@ -45,7 +45,7 @@ pipeline {
         stage('Release - DeserializationPOJO') {
 			when {
                 expression {
-                    env.BRANCH_NAME == 'DeserializationPOJO'
+                    env.BRANCH_NAME == 'origin/DeserializationPOJO'
                 }
             }
             steps {

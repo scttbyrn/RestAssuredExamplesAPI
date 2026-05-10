@@ -46,6 +46,6 @@ bat 'mvn test' - this line will execute the run automation execution.
 Step 3:
 Edit, Save and Push code on this repo "https://github.com/scttbyrn/RestAssuredExamplesAPI.git"
 
-Note: The Jenkins Trigger the automation testcases on Pipeline.
+Note: The Jenkins Trigger the automation testcases on Pipeline .
 
 

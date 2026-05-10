@@ -27,6 +27,7 @@ pipeline {
                     branch: 'master'
 
                 bat 'mvn clean install -DskipTests'
+                 
             }
         }
 
@@ -49,6 +50,44 @@ pipeline {
                         error "Smoke tests failed, stopping pipeline"
 
                     }
+                    
+                    echo "Sending Email Report.."
+
+        emailext(
+
+            subject: "Jenkins Build Report - ${currentBuild.currentResult}",
+
+            body: """
+                <h2>Automation Test Execution Result</h2>
+
+                <p><b>Build Number:</b> ${env.BUILD_NUMBER}</p>
+                <p><b>Build Status:</b> ${currentBuild.currentResult}</p>
+                <p><b>Job Name:</b> ${env.JOB_NAME}</p>
+
+                <h3>Test Status</h3>
+
+                <ul>
+                    <li>Smoke Test: ${env.SMOKE_STATUS}</li>
+                    
+                </ul>
+
+                <p>
+                    Check Jenkins Console Output:
+                    <a href="${env.BUILD_URL}">
+                        Open Build
+                    </a>
+                </p>
+            """,
+
+            mimeType: 'text/html',
+
+            to: "${EMAIL_RECIPIENTS}",
+
+            attachLog: true,
+
+            attachmentsPattern: 'reports/index.html'
+        )
+                    
                 }
             }
         }
@@ -76,6 +115,44 @@ pipeline {
                         error "Regression tests failed, stopping pipeline"
 
                     }
+                    
+                    echo "Sending Email Report.."
+
+        emailext(
+
+            subject: "Jenkins Build Report - ${currentBuild.currentResult}",
+
+            body: """
+                <h2>Automation Test Execution Result</h2>
+
+                <p><b>Build Number:</b> ${env.BUILD_NUMBER}</p>
+                <p><b>Build Status:</b> ${currentBuild.currentResult}</p>
+                <p><b>Job Name:</b> ${env.JOB_NAME}</p>
+
+                <h3>Test Status</h3>
+
+                <ul>
+                    <li>Regression Test: ${env.REGRESSION_STATUS}</li>
+                    
+                </ul>
+
+                <p>
+                    Check Jenkins Console Output:
+                    <a href="${env.BUILD_URL}">
+                        Open Build
+                    </a>
+                </p>
+            """,
+
+            mimeType: 'text/html',
+
+            to: "${EMAIL_RECIPIENTS}",
+
+            attachLog: true,
+
+            attachmentsPattern: 'reports/index.html'
+        )
+                    
                 }
             }
         }
@@ -103,6 +180,44 @@ pipeline {
                         error "Regression tests failed, stopping pipeline"
 
                     } 
+                    
+                    echo "Sending Email Report.."
+
+        emailext(
+
+            subject: "Jenkins Build Report - ${currentBuild.currentResult}",
+
+            body: """
+                <h2>Automation Test Execution Result</h2>
+
+                <p><b>Build Number:</b> ${env.BUILD_NUMBER}</p>
+                <p><b>Build Status:</b> ${currentBuild.currentResult}</p>
+                <p><b>Job Name:</b> ${env.JOB_NAME}</p>
+
+                <h3>Test Status</h3>
+
+                <ul>
+                    <li>Sanity Test: ${env.SANITY_STATUS}</li>
+                    
+                </ul>
+
+                <p>
+                    Check Jenkins Console Output:
+                    <a href="${env.BUILD_URL}">
+                        Open Build
+                    </a>
+                </p>
+            """,
+
+            mimeType: 'text/html',
+
+            to: "${EMAIL_RECIPIENTS}",
+
+            attachLog: true,
+
+            attachmentsPattern: 'reports/index.html'
+        )
+                    
 					
 				}
              
@@ -111,47 +226,6 @@ pipeline {
     }
 
     post {
-
-        always {
-
-            echo "Sending Email Report.."
-
-            emailext(
-
-                subject: "Jenkins Build Report - ${currentBuild.currentResult}",
-
-                body: """
-                    <h2>Automation Test Execution Result</h2>
-
-                    <p><b>Build Number:</b> ${env.BUILD_NUMBER}</p>
-                    <p><b>Build Status:</b> ${currentBuild.currentResult}</p>
-                    <p><b>Job Name:</b> ${env.JOB_NAME}</p>
-
-                    <h3>Test Status</h3>
-
-                    <ul>
-                        <li>Smoke Test: ${env.SMOKE_STATUS}</li>
-                        <li>Regression Test: ${env.REGRESSION_STATUS}</li>
-                        <li>Sanity Test: ${env.SANITY_STATUS}</li>
-                    </ul>
-
-                    <p>
-                        Check Jenkins Console Output:
-                        <a href="${env.BUILD_URL}">
-                            Open Build
-                        </a>
-                    </p>
-                """,
-
-                mimeType: 'text/html',
-
-                to: "${EMAIL_RECIPIENTS}",
-
-                attachLog: true,
-
-                attachmentsPattern: 'reports/*.html'
-            )
-        }
 
         success {
 

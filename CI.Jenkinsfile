@@ -45,7 +45,7 @@ pipeline {
 
         stage('Regression Tests') {
             when {
-                expression { env.REGRESSION_STATUS == "PASSED" }
+                expression { env.SMOKE_STATUS == "PASSED" }
             }
             steps {
 				
@@ -69,7 +69,7 @@ pipeline {
         stage('Sanity Tests') {
 			
 			when {
-                expression { env.SMOKE_STATUS == "PASSED" && env.REGRESSION_STATUS = "PASSED" }
+                expression { env.SMOKE_STATUS == "PASSED" && env.REGRESSION_STATUS == "PASSED" }
             }
             
             echo "Running Sanity Tests.."

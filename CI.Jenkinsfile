@@ -27,7 +27,7 @@ pipeline {
 	       stage('Smoke Tests') {
             	steps {
 					
-					echo "Running Smoke Tests.."
+				echo "Running Smoke Tests.."
 					
                 script {
                     try {
@@ -45,7 +45,7 @@ pipeline {
 
         stage('Regression Tests') {
             when {
-                expression { env.SMOKE_STATUS == "PASSED" }
+                expression { env.REGRESSION_STATUS == "PASSED" }
             }
             steps {
 				
@@ -58,7 +58,7 @@ pipeline {
                         
                     } catch (err) {
                         env.REGRESSION_STATUS = "FAILED"
-                        error "Smoke tests failed, stopping pipeline"
+                        error "Regression tests failed, stopping pipeline"
                         
                     }
                 }
@@ -72,11 +72,10 @@ pipeline {
                 expression { env.SMOKE_STATUS == "PASSED" && env.REGRESSION_STATUS = "PASSED" }
             }
             
-            
             echo "Running Sanity Tests.."
 
             steps {
-                bat 'mvn test -PRegression -Dbrowser=chrome'
+                bat 'mvn test -PSanity -Dbrowser=edge'
             }
         }
 	

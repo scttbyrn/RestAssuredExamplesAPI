@@ -197,7 +197,7 @@ pipeline {
                 <h3>Test Status</h3>
 
                 <ul>
-                    <li>Sanity Test: ${env.FULL_REGRESSION_STATUS}</li>
+                    <li>Full Regression Test: ${env.FULL_REGRESSION_STATUS}</li>
                     
                 </ul>
 

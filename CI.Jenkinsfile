@@ -132,7 +132,7 @@ pipeline {
                 <h3>Test Status</h3>
 
                 <ul>
-                    <li>Regression Test: ${env.SPRINT_REGRESSION_STATUS}</li>
+                    <li>Sprint Regression Test: ${env.SPRINT_REGRESSION_STATUS}</li>
                     
                 </ul>
 
@@ -223,6 +223,7 @@ pipeline {
              
             }
         }
+        
     }
 
     post {

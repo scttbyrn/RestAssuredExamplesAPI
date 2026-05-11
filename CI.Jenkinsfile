@@ -31,7 +31,7 @@ pipeline {
             }
         }
 
-        stage('Smoke Tests') {
+        stage('Smoke Test') {
 
             steps {
 
@@ -92,7 +92,7 @@ pipeline {
             }
         }
 
-        stage('Regression Tests') {
+        stage('Sprint Regression Test') {
 
             when {
                 expression { env.SMOKE_STATUS == "PASSED" }
@@ -107,11 +107,11 @@ pipeline {
                     try {
 
                         bat 'mvn test -PRegression -Dbrowser=chrome "-DreportName=RegressionReport"'
-                        env.REGRESSION_STATUS = "PASSED"
+                        env.SPRINT_REGRESSION_STATUS = "PASSED"
 
                     } catch (err) {
 
-                        env.REGRESSION_STATUS = "FAILED"
+                        env.SPRINT_REGRESSION_STATUS = "FAILED"
                         error "Regression tests failed, stopping pipeline"
 
                     }
@@ -132,7 +132,7 @@ pipeline {
                 <h3>Test Status</h3>
 
                 <ul>
-                    <li>Regression Test: ${env.REGRESSION_STATUS}</li>
+                    <li>Regression Test: ${env.SPRINT_REGRESSION_STATUS}</li>
                     
                 </ul>
 
@@ -157,10 +157,10 @@ pipeline {
             }
         }
 
-        stage('Full Regression Tests') {
+        stage('Full Regression Test') {
 
             when {
-                expression { env.SMOKE_STATUS == "PASSED" && env.REGRESSION_STATUS == "PASSED"}
+                expression { env.SMOKE_STATUS == "PASSED" && env.SPRINT_REGRESSION_STATUS == "PASSED"}
             }
 
             steps {

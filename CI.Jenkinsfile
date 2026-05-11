@@ -157,7 +157,7 @@ pipeline {
             }
         }
 
-        stage('Sanity Tests') {
+        stage('Full Regression Tests') {
 
             when {
                 expression { env.SMOKE_STATUS == "PASSED" && env.REGRESSION_STATUS == "PASSED"}
@@ -165,18 +165,18 @@ pipeline {
 
             steps {
 
-                echo "Running Sanity Tests.."
+                echo "Running Full Regression Tests.."
                 
                 script {
 					
 					 try {
 
                         bat 'mvn test -PSanity -Dbrowser=edge "-DreportName=SanityReport"'
-                        env.SANITY_STATUS = "PASSED"
+                        env.FULL_REGRESSION_STATUS = "PASSED"
 
                     } catch (err) {
 
-                        env.SANITY_STATUS = "FAILED"
+                        env.FULL_REGRESSION_STATUS = "FAILED"
                         error "Regression tests failed, stopping pipeline"
 
                     } 
@@ -197,7 +197,7 @@ pipeline {
                 <h3>Test Status</h3>
 
                 <ul>
-                    <li>Sanity Test: ${env.SANITY_STATUS}</li>
+                    <li>Sanity Test: ${env.FULL_REGRESSION_STATUS}</li>
                     
                 </ul>
 

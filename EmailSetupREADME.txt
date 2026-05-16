@@ -49,6 +49,6 @@ check if the email is successful ping
 tick Test configuration by sending test e-mail
 Test e-mail recipient - scttsmrfng2@gmail.com
 click Test Configuration
-validate: Email was successfully sent
+validate: Email was successfully sent 
 
 

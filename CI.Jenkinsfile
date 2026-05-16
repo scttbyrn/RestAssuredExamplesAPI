@@ -92,10 +92,12 @@ pipeline {
             }
         }
         
-        
-        stages {
 
         stage('Checkout Regression Repo..') {
+			
+			when {
+                expression { env.SMOKE_STATUS == "PASSED" }
+            }
 
             steps {
 

@@ -1,20 +1,21 @@
-/**This Pipeline is work only on this Branch
+/**This Pipeline works only on this Branch
 
 Note:
 - To make this dynamically with auto detect other branches you must use "MultiBranch Pipeline".
 
-There is a sample of MultiBranch Pipelin groovy setup on branch of "OAuth".
-
+There is a sample of MultiBranch Pipeline groovy setup on branch of "OAuth".
 **/
-
-
 
 pipeline {
 
     agent any
 
     environment {
+
         EMAIL_RECIPIENTS = 'scttsmrfng2@gmail.com, scttsmrfng@gmail.com'
+
+        SMOKE_STATUS = ''
+        SPRINT_REGRESSION_STATUS = ''
     }
 
     stages {
@@ -82,6 +83,7 @@ pipeline {
                         )
 
                         if (env.SMOKE_STATUS == "FAILED") {
+
                             error "Smoke Tests Failed"
                         }
                     }
@@ -118,7 +120,7 @@ pipeline {
 
                     try {
 
-                        echo "Running Regression Tests.."
+                        echo "Running Sprint Regression Tests.."
 
                         bat 'mvn test -PRegression -Dbrowser=chrome "-DreportName=RegressionReport"'
 
@@ -160,6 +162,7 @@ pipeline {
                         )
 
                         if (env.SPRINT_REGRESSION_STATUS == "FAILED") {
+
                             error "Regression Tests Failed"
                         }
                     }
@@ -171,37 +174,37 @@ pipeline {
     post {
 
         success {
+
             echo "Smoke and Sprint Regression Pipeline completed successfully."
-            
+
             script {
 
-            if (env.SMOKE_STATUS == "PASSED" &&
-                env.SPRINT_REGRESSION_STATUS == "PASSED") {
+                if (env.SMOKE_STATUS == "PASSED" &&
+                    env.SPRINT_REGRESSION_STATUS == "PASSED") {
 
-                echo "Smoke and Sprint Regression Passed."
-                echo "Triggering Full Regression Pipeline.."
+                    echo "Smoke and Sprint Regression Passed."
 
-                build job: 'Full_Regression_Pipeline',
+                    echo "Triggering Full Regression Pipeline.."
 
-                wait: true,
+                    build job: 'Full_Regression_Pipeline',
+                        wait: true,
+                        propagate: false
 
+                } else {
 
-            } else {
-
-                echo "Conditions not met. Skipping next pipeline."
+                    echo "Conditions not met. Skipping next pipeline."
+                }
             }
-            
         }
 
         failure {
+
             echo "Pipeline failed."
         }
 
         always {
+
             echo "Pipeline execution finished."
         }
     }
-    }
-    //Tests
 }
-

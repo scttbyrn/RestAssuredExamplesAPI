@@ -82,7 +82,7 @@ pipeline {
 
                         attachLog: true,
 
-                        attachmentsPattern: 'reports/index.html'
+                        attachmentsPattern: 'SmokeRun/SmokeReport.html'
                     )
                 }
             }
@@ -161,7 +161,8 @@ pipeline {
 
                         attachLog: true,
 
-                        attachmentsPattern: 'reports/index.html'
+                        attachmentsPattern: 'RegressionRun/RegressionReport.html'
+ 
                     )
                 }
             }

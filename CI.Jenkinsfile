@@ -11,7 +11,6 @@ pipeline {
     agent any
 
     environment {
-
         EMAIL_RECIPIENTS = 'scttsmrfng2@gmail.com, scttsmrfng@gmail.com'
 
     }
@@ -51,8 +50,6 @@ pipeline {
 
                     } finally {
 
-                        echo "Sending Smoke Email Report.."
-
                         emailext(
 
                             subject: "Smoke Test Report - ${env.SMOKE_STATUS}",
@@ -64,11 +61,7 @@ pipeline {
                                 <p><b>Job Name:</b> ${env.JOB_NAME}</p>
                                 <p><b>Status:</b> ${env.SMOKE_STATUS}</p>
 
-                                <p>
-                                    <a href="${env.BUILD_URL}">
-                                        Open Jenkins Build
-                                    </a>
-                                </p>
+                                <p><a href="${env.BUILD_URL}">Open Jenkins Build</a></p>
                             """,
 
                             mimeType: 'text/html',
@@ -81,7 +74,6 @@ pipeline {
                         )
 
                         if (env.SMOKE_STATUS == "FAILED") {
-
                             error "Smoke Tests Failed"
                         }
                     }
@@ -130,8 +122,6 @@ pipeline {
 
                     } finally {
 
-                        echo "Sending Regression Email Report.."
-
                         emailext(
 
                             subject: "Regression Test Report - ${env.SPRINT_REGRESSION_STATUS}",
@@ -143,11 +133,7 @@ pipeline {
                                 <p><b>Job Name:</b> ${env.JOB_NAME}</p>
                                 <p><b>Status:</b> ${env.SPRINT_REGRESSION_STATUS}</p>
 
-                                <p>
-                                    <a href="${env.BUILD_URL}">
-                                        Open Jenkins Build
-                                    </a>
-                                </p>
+                                <p><a href="${env.BUILD_URL}">Open Jenkins Build</a></p>
                             """,
 
                             mimeType: 'text/html',
@@ -158,16 +144,6 @@ pipeline {
 
                             attachmentsPattern: 'RegressionRun/RegressionReport.html'
                         )
-
-                        if (env.SPRINT_REGRESSION_STATUS == "FAILED") {
-
-                    echo "Triggering Full Regression Pipeline.."
-
-                    build job: 'Full_Regression_Pipeline',
-                        wait: true
-                            
-                            
-                        }
                     }
                 }
             }
@@ -179,16 +155,30 @@ pipeline {
         success {
 
             echo "Smoke and Sprint Regression Pipeline completed successfully."
-}
+
         }
 
         failure {
-
             echo "Pipeline failed."
+            
+                script {
+
+                if (env.SMOKE_STATUS == "PASSED" &&
+                    env.SPRINT_REGRESSION_STATUS == "FAILED") {
+
+                    echo "Triggering Full Regression Pipeline.."
+
+                    build job: 'Full_Regression_Pipeline',
+                        wait: true
+
+                } else {
+
+                    echo "Conditions not met. Skipping next pipeline."
+                }
+            }
         }
 
         always {
-
             echo "Pipeline execution finished."
         }
     }

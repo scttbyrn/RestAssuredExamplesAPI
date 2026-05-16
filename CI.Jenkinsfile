@@ -15,8 +15,6 @@ pipeline {
 
     environment {
         EMAIL_RECIPIENTS = 'scttsmrfng2@gmail.com, scttsmrfng@gmail.com'
-        SMOKE_STATUS = 'NOT RUN'
-        SPRINT_REGRESSION_STATUS = 'NOT RUN'
     }
 
     stages {

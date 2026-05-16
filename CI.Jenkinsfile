@@ -3,7 +3,7 @@
 Note:
 - To make this dynamically with auto detect other branches you must use "MultiBranch Pipeline".
 
-There is a sample of MultiBranch Pipeline groovy setup on branch of "OAuth".
+There is a sample of MultiBranch Pipeline groovy setup on branch of "OAuth"..
 **/
 
 pipeline {

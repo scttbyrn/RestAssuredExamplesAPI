@@ -7,21 +7,25 @@ There is a sample of MultiBranch Pipelin groovy setup on branch of "OAuth".
 
 **/
 
+
+
 pipeline {
 
     agent any
 
     environment {
         EMAIL_RECIPIENTS = 'scttsmrfng2@gmail.com, scttsmrfng@gmail.com'
+        SMOKE_STATUS = 'NOT RUN'
+        SPRINT_REGRESSION_STATUS = 'NOT RUN'
     }
 
     stages {
 
-        stage('Checkout Smoke Repo..') {
+        stage('Checkout Smoke Repo') {
 
             steps {
 
-                echo "Checkout Automation Test Cases.."
+                echo "Checkout Smoke Automation Test Cases.."
 
                 git url: 'https://github.com/scttbyrn/ExtentReport_Parallel.git',
                     branch: 'master'
@@ -34,61 +38,60 @@ pipeline {
 
             steps {
 
-                echo "Running Smoke Tests.."
-
                 script {
 
                     try {
 
+                        echo "Running Smoke Tests.."
+
                         bat 'mvn test -PSmoke -Dbrowser=edge "-DreportName=SmokeReport"'
+
                         env.SMOKE_STATUS = "PASSED"
 
                     } catch (err) {
 
                         env.SMOKE_STATUS = "FAILED"
-                        error "Smoke tests failed, stopping pipeline"
+
+                    } finally {
+
+                        echo "Sending Smoke Email Report.."
+
+                        emailext(
+
+                            subject: "Smoke Test Report - ${env.SMOKE_STATUS}",
+
+                            body: """
+                                <h2>Smoke Test Execution Result</h2>
+
+                                <p><b>Build Number:</b> ${env.BUILD_NUMBER}</p>
+                                <p><b>Job Name:</b> ${env.JOB_NAME}</p>
+                                <p><b>Status:</b> ${env.SMOKE_STATUS}</p>
+
+                                <p>
+                                    <a href="${env.BUILD_URL}">
+                                        Open Jenkins Build
+                                    </a>
+                                </p>
+                            """,
+
+                            mimeType: 'text/html',
+
+                            to: "${EMAIL_RECIPIENTS}",
+
+                            attachLog: true,
+
+                            attachmentsPattern: 'SmokeRun/SmokeReport.html'
+                        )
+
+                        if (env.SMOKE_STATUS == "FAILED") {
+                            error "Smoke Tests Failed"
+                        }
                     }
-
-                    echo "Sending Email Report.."
-
-                    emailext(
-
-                        subject: "Jenkins Build Report - ${currentBuild.currentResult}",
-
-                        body: """
-                            <h2>Automation Test Execution Result</h2>
-
-                            <p><b>Build Number:</b> ${env.BUILD_NUMBER}</p>
-                            <p><b>Build Status:</b> ${currentBuild.currentResult}</p>
-                            <p><b>Job Name:</b> ${env.JOB_NAME}</p>
-
-                            <h3>Test Status</h3>
-
-                            <ul>
-                                <li>Smoke Test: ${env.SMOKE_STATUS}</li>
-                            </ul>
-
-                            <p>
-                                Check Jenkins Console Output:
-                                <a href="${env.BUILD_URL}">
-                                    Open Build
-                                </a>
-                            </p>
-                        """,
-
-                        mimeType: 'text/html',
-
-                        to: "${EMAIL_RECIPIENTS}",
-
-                        attachLog: true,
-
-                        attachmentsPattern: 'SmokeRun/SmokeReport.html'
-                    )
                 }
             }
         }
 
-        stage('Checkout Regression Repo..') {
+        stage('Checkout Regression Repo') {
 
             when {
                 expression { env.SMOKE_STATUS == "PASSED" }
@@ -113,57 +116,55 @@ pipeline {
 
             steps {
 
-                echo "Running Regression Tests.."
-
                 script {
 
                     try {
 
+                        echo "Running Regression Tests.."
+
                         bat 'mvn test -PRegression -Dbrowser=chrome "-DreportName=RegressionReport"'
+
                         env.SPRINT_REGRESSION_STATUS = "PASSED"
 
                     } catch (err) {
 
                         env.SPRINT_REGRESSION_STATUS = "FAILED"
-                        error "Regression tests failed, stopping pipeline"
+
+                    } finally {
+
+                        echo "Sending Regression Email Report.."
+
+                        emailext(
+
+                            subject: "Regression Test Report - ${env.SPRINT_REGRESSION_STATUS}",
+
+                            body: """
+                                <h2>Regression Test Execution Result</h2>
+
+                                <p><b>Build Number:</b> ${env.BUILD_NUMBER}</p>
+                                <p><b>Job Name:</b> ${env.JOB_NAME}</p>
+                                <p><b>Status:</b> ${env.SPRINT_REGRESSION_STATUS}</p>
+
+                                <p>
+                                    <a href="${env.BUILD_URL}">
+                                        Open Jenkins Build
+                                    </a>
+                                </p>
+                            """,
+
+                            mimeType: 'text/html',
+
+                            to: "${EMAIL_RECIPIENTS}",
+
+                            attachLog: true,
+
+                            attachmentsPattern: 'RegressionRun/RegressionReport.html'
+                        )
+
+                        if (env.SPRINT_REGRESSION_STATUS == "FAILED") {
+                            error "Regression Tests Failed"
+                        }
                     }
-
-                    echo "Sending Email Report.."
-
-                    emailext(
-
-                        subject: "Jenkins Build Report - ${currentBuild.currentResult}",
-
-                        body: """
-                            <h2>Automation Test Execution Result</h2>
-
-                            <p><b>Build Number:</b> ${env.BUILD_NUMBER}</p>
-                            <p><b>Build Status:</b> ${currentBuild.currentResult}</p>
-                            <p><b>Job Name:</b> ${env.JOB_NAME}</p>
-
-                            <h3>Test Status</h3>
-
-                            <ul>
-                                <li>Sprint Regression Test: ${env.SPRINT_REGRESSION_STATUS}</li>
-                            </ul>
-
-                            <p>
-                                Check Jenkins Console Output:
-                                <a href="${env.BUILD_URL}">
-                                    Open Build
-                                </a>
-                            </p>
-                        """,
-
-                        mimeType: 'text/html',
-
-                        to: "${EMAIL_RECIPIENTS}",
-
-                        attachLog: true,
-
-                        attachmentsPattern: 'RegressionRun/RegressionReport.html'
- 
-                    )
                 }
             }
         }
@@ -178,5 +179,10 @@ pipeline {
         failure {
             echo "Pipeline failed."
         }
+
+        always {
+            echo "Pipeline execution finished."
+        }
     }
 }
+

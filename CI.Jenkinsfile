@@ -172,7 +172,25 @@ pipeline {
 
         success {
             echo "Smoke and Sprint Regression Pipeline completed successfully."
-              
+            
+            script {
+
+            if (env.SMOKE_STATUS == "PASSED" &&
+                env.SPRINT_REGRESSION_STATUS == "PASSED") {
+
+                echo "Smoke and Sprint Regression Passed."
+                echo "Triggering Full Regression Pipeline.."
+
+                build job: 'Full_Regression_Pipeline',
+
+                wait: true,
+
+
+            } else {
+
+                echo "Conditions not met. Skipping next pipeline."
+            }
+            
         }
 
         failure {
@@ -183,7 +201,7 @@ pipeline {
             echo "Pipeline execution finished."
         }
     }
-    
+    }
     //Test
 }
 

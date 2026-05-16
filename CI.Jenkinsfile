@@ -144,6 +144,10 @@ pipeline {
 
                             attachmentsPattern: 'RegressionRun/RegressionReport.html'
                         )
+                        
+                        if (env.SPRINT_REGRESSION_STATUS == "FAILED") {
+                            error "Sprint Regression Tests Failed"
+                        }
                     }
                 }
             }

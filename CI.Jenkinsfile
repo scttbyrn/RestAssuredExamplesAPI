@@ -14,8 +14,6 @@ pipeline {
 
         EMAIL_RECIPIENTS = 'scttsmrfng2@gmail.com, scttsmrfng@gmail.com'
 
-        SMOKE_STATUS = ''
-        SPRINT_REGRESSION_STATUS = ''
     }
 
     stages {
@@ -163,7 +161,12 @@ pipeline {
 
                         if (env.SPRINT_REGRESSION_STATUS == "FAILED") {
 
-                            error "Regression Tests Failed"
+                    echo "Triggering Full Regression Pipeline.."
+
+                    build job: 'Full_Regression_Pipeline',
+                        wait: true
+                            
+                            
                         }
                     }
                 }
@@ -176,25 +179,7 @@ pipeline {
         success {
 
             echo "Smoke and Sprint Regression Pipeline completed successfully."
-
-            script {
-
-                if (env.SMOKE_STATUS == "PASSED" &&
-                    env.SPRINT_REGRESSION_STATUS == "PASSED") {
-
-                    echo "Smoke and Sprint Regression Passed."
-
-                    echo "Triggering Full Regression Pipeline.."
-
-                    build job: 'Full_Regression_Pipeline',
-                        wait: true,
-                        propagate: false
-
-                } else {
-
-                    echo "Conditions not met. Skipping next pipeline."
-                }
-            }
+}
         }
 
         failure {

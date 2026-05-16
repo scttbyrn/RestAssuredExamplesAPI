@@ -89,7 +89,7 @@ pipeline {
             }
         }
 
-        stage('Checkout Regression Repo') {
+        stage('Checkout Sprint Regression Repo') {
 
             when {
                 expression { env.SMOKE_STATUS == "PASSED" }
@@ -97,7 +97,7 @@ pipeline {
 
             steps {
 
-                echo "Checkout Regression Automation Test Cases.."
+                echo "Checkout Sprint Regression Automation Test Cases.."
 
                 git url: 'https://github.com/scttbyrn/ExtentReport_Parallel.git',
                     branch: 'JenkinsCIwithEmailReport'
